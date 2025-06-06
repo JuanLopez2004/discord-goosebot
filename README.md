@@ -6,9 +6,9 @@ commands range from image popups to data collection
 # data collection
 logs discord messages, includes timestamp, user, channel, and message content.
 
-#Image commands
+# Image commands
 
-#commandslist
+# commandslist
 !dinner - shows an image of CDI Zelda's king
 !spaghetti - shows an image of hotel mario CDI
 !kill - shows a message for nate
