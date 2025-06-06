@@ -9,6 +9,6 @@ logs discord messages, includes timestamp, user, channel, and message content.
 # Image commands
 
 # commandslist
-!dinner - shows an image of CDI Zelda's king
-!spaghetti - shows an image of hotel mario CDI
-!kill - shows a message for nate
+<p>!dinner - shows an image of CDI Zelda's king</p>
+<p>!spaghetti - shows an image of hotel mario CDI</p>
+<p>!kill - shows a message for nate</p>
