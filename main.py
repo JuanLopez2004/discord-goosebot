@@ -1,6 +1,7 @@
 ##library imports
 import discord
 from discord.ext import commands
+from discord.ui import View, Button
 import logging 
 from dotenv import load_dotenv
 import os
@@ -35,7 +36,7 @@ bot.remove_command("help")
 
 @bot.event 
 async def on_ready():
-    print(f"Logged in")
+    print(f"LOGGED INTO GOOSEBOT!")
 
 ############################################################
 
@@ -73,6 +74,7 @@ async def help_command(ctx):             #help_command function
     embed.add_field(name="!kill", value="Kills Nate", inline=False)
     embed.add_field(name="!dinner", value="Shows the King", inline=False)
     embed.add_field(name="!spaghetti", value="shows luigi", inline=False)
+    embed.add_field(name="!goose", value="shows goose", inline=False)
 
     await ctx.send(embed=embed)         #Sends the embed to the channel
 
@@ -93,8 +95,8 @@ async def kill_command(ctx):
 ###########################################################
 
 @bot.command(name="dinner")
-async def dinner_command(ctx):
-    file = discord.File(r"C:\Users\radis\discordbot\images\king.jpg", filename="king.jpg")
+async def dinner_command(ctx):           
+    file = discord.File(r"C:\Users\radis\discord-goosebot\images\king.jpg", filename="king.jpg")
     embed = discord.Embed(title="King")
     embed.set_image(url="attachment://king.jpg")  # must match filename
     await ctx.send(file=file, embed=embed)
@@ -106,14 +108,42 @@ async def dinner_command(ctx):
 ###########################################################
 
 @bot.command(name="spaghetti")
-async def spaghetti_command(ctx):
-    file = discord.File(r"C:\Users\radis\discordbot\images\spaghetti.jpg", filename="spaghetti.jpg")
+async def spaghetti_command(ctx):        
+    file = discord.File(r"C:\Users\radis\discord-goosebot\images\spaghetti.jpg", filename="spaghetti.jpg")
     embed = discord.Embed(title="Spaghetti")
     embed.set_image(url="attachment://spaghetti.jpg")
     await ctx.send(file=file, embed=embed)
     await ctx.send("I HOPE SHE MADE LOTSA SPAGHETTI!")
 
 ###########################################################
+
+## Goose Game
+###########################################################
+
+## Class for the button embed
+class gooseView(View):
+    def __init__(self): ## 
+        super().__init__(timeout=None) ##
+        
+    @discord.ui.button(label="Pet the Goose", style=discord.ButtonStyle.primary)
+    async def pet_goose(self, interaction:discord.Interaction, button: discord.ui.Button):
+        file = discord.File(r"C:\Users\radis\discord-goosebot\images\gooseat.jpg",filename="gooseat.jpg")
+        embed = discord.Embed(title="the goose is ANGRY")
+        embed.set_image(url="attachment://gooseat.jpg")
+        await interaction.response.send_message(file=file, embed=embed)
+
+
+@bot.command(name="goose")
+async def goose_command(ctx):
+    file = discord.File(r"C:\Users\radis\discord-goosebot\images\goose.gif", filename="goose.gif")
+    embed = discord.Embed(title="goose")
+    embed.set_image(url="attachment://goose.gif")
+
+    view = gooseView()
+    await ctx.send(file=file, embed=embed, view=view)
+    await ctx.send("HONK HONK HONK HONK HONK")
+
+##########################################################
 
 
 ## message logger
