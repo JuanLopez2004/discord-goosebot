@@ -1,4 +1,4 @@
-# discordbot
+# goosebot!
 
 <p>Project Discord Bot using discord.py library to implement commands </p>
 commands range from image popups to data collection
