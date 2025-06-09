@@ -104,6 +104,7 @@ async def kill_command(ctx):
 
 ###########################################################
 
+
 #!dinner command
 ##sends an image of the king 
 ###########################################################
@@ -159,6 +160,7 @@ async def goose_command(ctx):
     await ctx.send("HONK HONK HONK HONK HONK")
 
 ##########################################################
+
 
 ##user profile picture commands
 ##########################################################
@@ -222,6 +224,5 @@ async def on_message(message):
 
 ###########################################################
 
-##run/testing
 ###print(f"TOKEN LOADED: {token}")
 bot.run (token, log_handler=handler, log_level=logging.DEBUG)
