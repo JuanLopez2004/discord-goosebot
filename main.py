@@ -98,8 +98,8 @@ async def help_command(ctx):             #help_command function
 ##nate !kill command
 ###########################################################
 
-@bot.command(name='kill')
-async def kill_command(ctx):
+@bot.command(name='kill')                                 # bot.command() is the decorator that registers the func as a command
+async def kill_command(ctx):                              # context is the object passed to every command function    
     await ctx.send("must kill nate!!!!")
 
 ###########################################################
@@ -110,11 +110,11 @@ async def kill_command(ctx):
 
 @bot.command(name="dinner")
 async def dinner_command(ctx):           
-    file = discord.File(r"C:\Users\radis\discord-goosebot\images\king.jpg", filename="king.jpg")
-    embed = discord.Embed(title="King")
-    embed.set_image(url="attachment://king.jpg")  # must match filename
-    await ctx.send(file=file, embed=embed)
-
+    file = discord.File(r"C:\Users\radis\discord-goosebot\images\king.jpg", filename="king.jpg")   # Loads the image file from the specified path
+    embed = discord.Embed(title="King")                                                            # Creates an embed object with the title "King"
+    embed.set_image(url="attachment://king.jpg")                                                   # must match filename
+    await ctx.send(file=file, embed=embed)                                                         # sends the file and embed to the channel
+                                                                                                   # THIS SHOULD BE the standard for sending images, gifs, embeds to discord
 ###########################################################
 
 
@@ -154,7 +154,7 @@ async def goose_command(ctx):
     embed = discord.Embed(title="goose")
     embed.set_image(url="attachment://goose.gif")
 
-    view = gooseView()
+    view = gooseView()                                                    #
     await ctx.send(file=file, embed=embed, view=view)
     await ctx.send("HONK HONK HONK HONK HONK")
 
