@@ -182,7 +182,6 @@ async def on_message(message):
 
 ###########################################################
 
-##test for github linking
 ##run/testing
 ###print(f"TOKEN LOADED: {token}")
 bot.run (token, log_handler=handler, log_level=logging.DEBUG)
