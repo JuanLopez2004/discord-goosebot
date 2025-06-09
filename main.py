@@ -1,4 +1,4 @@
-##library imports
+#library imports
 import discord
 from discord.ext import commands
 from discord.ui import View, Button
@@ -75,6 +75,7 @@ async def help_command(ctx):             #help_command function
     embed.add_field(name="!dinner", value="Shows the King", inline=False)
     embed.add_field(name="!spaghetti", value="shows luigi", inline=False)
     embed.add_field(name="!goose", value="shows goose", inline=False)
+    embed.add_field(name="!pfp", value="shows goose", inline=False)
 
     await ctx.send(embed=embed)         #Sends the embed to the channel
 
@@ -117,6 +118,7 @@ async def spaghetti_command(ctx):
 
 ###########################################################
 
+
 ## Goose Game
 ###########################################################
 
@@ -142,6 +144,15 @@ async def goose_command(ctx):
     view = gooseView()
     await ctx.send(file=file, embed=embed, view=view)
     await ctx.send("HONK HONK HONK HONK HONK")
+
+##########################################################
+
+##user profile picture commands
+##########################################################
+
+@bot.command(name="pfp")
+async def pfp_command(ctx, member: discord.Member):
+    await ctx.send(member.display_avatar)
 
 ##########################################################
 
