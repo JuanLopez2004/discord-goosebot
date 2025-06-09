@@ -73,9 +73,9 @@ async def help_command(ctx):             #help_command function
     #Add commands here
     embed.add_field(name="!kill", value="Kills Nate", inline=False)
     embed.add_field(name="!dinner", value="Shows the King", inline=False)
-    embed.add_field(name="!spaghetti", value="shows luigi", inline=False)
-    embed.add_field(name="!goose", value="shows goose", inline=False)
-    embed.add_field(name="!pfp", value="shows goose", inline=False)
+    embed.add_field(name="!spaghetti", value="Shows an image of Hotel Mario", inline=False)
+    embed.add_field(name="!goose", value="Shows a little Goose game", inline=False)
+    embed.add_field(name="!pfp @user", value="Shows Selected User's Profile Picture", inline=False)
 
     await ctx.send(embed=embed)         #Sends the embed to the channel
 
