@@ -8,8 +8,19 @@ import os
 import requests
 import random
 
+## Time and Date Import libraries
+import datetime
+import asyncio
+import pytz
+from discord.ext import tasks
+
+# Sets the timezone to central chicago 
+CENTRAL_TZ = pytz.timezone('US/Central') 
+last_sent_date = None  # To avoid duplicate messages
+
+# Load environment variables from .env file
 load_dotenv()
-token = os.getenv("DISCORD_TOKEN") ##loads token
+token = os.getenv("DISCORD_TOKEN") ##loads token from .env file
 
 ## Intent handling for message content and members
 ############################################################
@@ -37,6 +48,8 @@ bot.remove_command("help")
 @bot.event 
 async def on_ready():
     print(f"LOGGED INTO GOOSEBOT!")
+    if not night_message.is_running():
+        night_message.start()
 
 ############################################################
 
@@ -153,6 +166,33 @@ async def goose_command(ctx):
 @bot.command(name="pfp")
 async def pfp_command(ctx, member: discord.Member):
     await ctx.send(member.display_avatar)
+
+##########################################################
+
+
+## Nightly Message
+##########################################################
+
+@tasks.loop(minutes=1)
+async def night_message(): 
+    global last_sent_date # To keep track of the last sent date
+    
+    now = datetime.datetime.now(pytz.utc)           # Get current time in UTC
+    central_now = now.astimezone(CENTRAL_TZ)        # Convert to Central Time
+
+    if central_now.hour == 20 and central_now.minute == 30:  # Check if it's 8:30 PM Central Time
+        if last_sent_date != central_now.date():             # Check if the message has already been sent today
+            channel = bot.get_channel(689005693621239848)    # General channel ID 
+            if channel:                                      # If the channel is found
+                file = discord.File(r"C:\Users\radis\discord-goosebot\images\nightcore..gif", filename="nightcore..gif")  # Load the GIF file with filepath
+                embed = discord.Embed(title="ng2")                        
+                embed.set_image(url="attachment://nightcore..gif")      # Create an embed object, sets image, and then sends the file and embeds       
+                await channel.send(file=file, embed=embed)          
+                last_sent_date = central_now.date()              # Mark as sent for today before the next loop
+
+@night_message.before_loop          # This function runs before the loop starts
+async def before_night_message():
+    await bot.wait_until_ready()
 
 ##########################################################
 
