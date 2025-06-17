@@ -29,7 +29,7 @@ skramz_artists = {
 }
 
 user_cooldowns = {}
-COOLDOWN_SECONDS = 240
+COOLDOWN_SECONDS = 30
 
 #################################################
 
@@ -257,13 +257,19 @@ async def on_presence_update(before, after):
         user_cooldowns[after.id] = now  # update the last time it was used
 
         if artist in skramz_artists:  # if artist is in skramz list
-            channel = discord.utils.get(after.guild.text_channels, name="general") # send to general
+            channel = discord.utils.get(after.guild.text_channels, name="skramz") # send to general
             if channel: 
-                await channel.send(
-                    f"{after.mention} is listening to skramz. "
-                    f"HEY SKRAMZ KID WE LISTEN TO MATH ROCK AROUND HERE! "
+                embed = discord.Embed(
+                title="skramz",
+                description=(
+                    f"{after.mention} is listening to skramz.\n"
+                    f"HEY SKRAMZ KID WE LISTEN TO MATH ROCK AROUND HERE!\n"
                     f"({activity.title} by {artist})"
+                ),
                 )
+                file = discord.File(r"C:\Users\radis\discord-goosebot\images\jeromesdream.gif", filename="jeromesdream.gif")  # Load the GIF file with filepath
+                embed.set_image(url="attachment://jeromesdream.gif")      # Create an embed object, sets image, and then sends the file and embeds       
+                await channel.send(file=file, embed=embed)  
 
 ###########################################################
 
