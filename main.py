@@ -29,7 +29,7 @@ skramz_artists = {
 }
 
 user_cooldowns = {}
-COOLDOWN_SECONDS = 30
+COOLDOWN_SECONDS = 50
 
 #################################################
 
@@ -45,6 +45,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 intents.presences = True
+
 
 ############################################################
 
@@ -243,7 +244,6 @@ async def on_message(message):
 
 ### Skramz
 ###########################################################
-
 @bot.event
 async def on_presence_update(before, after):
     if after.activity and isinstance(after.activity, discord.Spotify):
@@ -253,23 +253,40 @@ async def on_presence_update(before, after):
         now = time.time()
         last_triggered = user_cooldowns.get(after.id, 0)
         if now - last_triggered < COOLDOWN_SECONDS:
+            print(f"Cooldown active for {after.id}")
             return  # cool down
-        user_cooldowns[after.id] = now  # update the last time it was used
 
-        if artist in skramz_artists:  # if artist is in skramz list
-            channel = discord.utils.get(after.guild.text_channels, name="skramz") # send to general
-            if channel: 
-                embed = discord.Embed(
-                title="skramz",
-                description=(
-                    f"{after.mention} is listening to skramz.\n"
-                    f"HEY SKRAMZ KID WE LISTEN TO MATH ROCK AROUND HERE!\n"
-                    f"({activity.title} by {artist})"
-                ),
-                )
-                file = discord.File(r"C:\Users\radis\discord-goosebot\images\jeromesdream.gif", filename="jeromesdream.gif")  # Load the GIF file with filepath
-                embed.set_image(url="attachment://jeromesdream.gif")      # Create an embed object, sets image, and then sends the file and embeds       
-                await channel.send(file=file, embed=embed)  
+        user_cooldowns[after.id] = now
+        print(f"Cooldown reset for {after.id}")
+
+        if artist in skramz_artists:
+            print(f"{artist} is in skramz list.")
+            for guild in bot.guilds:
+                member = guild.get_member(after.id)
+                if not member:
+                    try:
+                        member = await guild.fetch_member(after.id)
+                    except discord.NotFound:
+                        continue
+
+                channel = discord.utils.get(guild.text_channels, name="skramz") \
+                    or discord.utils.get(guild.text_channels, name="bot")
+
+                if channel:
+                    embed = discord.Embed(
+                        title="skramz",
+                        description=(
+                            f"{member.mention} is listening to skramz.\n"
+                            f"HEY SKRAMZ KID WE LISTEN TO MATH ROCK AROUND HERE!\n"
+                            f"({activity.title} by {artist})"
+                        ),
+                    )
+                    file = discord.File(
+                        r"C:\Users\radis\discord-goosebot\images\jeromesdream.gif",
+                        filename="jeromesdream.gif"
+                    )
+                    embed.set_image(url="attachment://jeromesdream.gif")
+                    await channel.send(file=file, embed=embed)
 
 ###########################################################
 
