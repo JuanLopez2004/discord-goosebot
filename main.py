@@ -246,33 +246,33 @@ async def on_message(message):
 ###########################################################
 @bot.event
 async def on_presence_update(before, after):
-    if after.activity and isinstance(after.activity, discord.Spotify):
+    if after.activity and isinstance(after.activity, discord.Spotify):  #find discord spotify activity
         activity = after.activity
         artist = activity.artist
 
-        now = time.time()
-        last_triggered = user_cooldowns.get(after.id, 0)
-        if now - last_triggered < COOLDOWN_SECONDS:
-            print(f"Cooldown active for {after.id}")
-            return  # cool down
+        now = time.time()   # create the time
+        last_triggered = user_cooldowns.get(after.id, 0) # create a last triggered variable that holds when the last msg was broadcast
+        if now - last_triggered < COOLDOWN_SECONDS:   # check if the cooldown is active
+            print(f"Cooldown active for {after.id}")    # cool down
+            return  
 
-        user_cooldowns[after.id] = now
-        print(f"Cooldown reset for {after.id}")
+        user_cooldowns[after.id] = now # # reset the cooldown
+        print(f"Cooldown reset for {after.id}") 
 
-        if artist in skramz_artists:
+        if artist in skramz_artists: # check if the artist is in the skramz list
             print(f"{artist} is in skramz list.")
-            for guild in bot.guilds:
-                member = guild.get_member(after.id)
-                if not member:
+            for guild in bot.guilds: # loop through all the guilds the bot is in
+                member = guild.get_member(after.id) # get the member object
+                if not member: 
                     try:
-                        member = await guild.fetch_member(after.id)
+                        member = await guild.fetch_member(after.id) #fetch
                     except discord.NotFound:
                         continue
 
                 channel = discord.utils.get(guild.text_channels, name="skramz") \
-                    or discord.utils.get(guild.text_channels, name="bot")
+                    or discord.utils.get(guild.text_channels, name="bot") #check if skramz or bot exists
 
-                if channel:
+                if channel: # if the channel is found, embed the message
                     embed = discord.Embed(
                         title="skramz",
                         description=(
