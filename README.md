@@ -14,3 +14,8 @@ embeds images onto discord natively
 <p>!spaghetti - shows an image of hotel mario CDI</p>
 <p>!kill - shows a message for nate</p>
 <p>!goose - shows a little goose game where you pet the goose</p>
+<p>!pfp @user - shows user's profile picture </p>
+
+# Other Features
+<p> Everyday at 8:30pm central, a gif is sent to general.</p>
+<p> Everytime a user has a Spotify presence on discord and is listening to a curated list of artists, ping user with their song and text</p>
