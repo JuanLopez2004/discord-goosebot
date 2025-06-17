@@ -7,16 +7,31 @@ from dotenv import load_dotenv
 import os
 import requests
 import random
+from discord import Spotify
 
 ## Time and Date Import libraries
 import datetime
 import asyncio
+import time  
 import pytz
 from discord.ext import tasks
 
 # Sets the timezone to central chicago 
 CENTRAL_TZ = pytz.timezone('US/Central') 
 last_sent_date = None  # To avoid duplicate messages
+
+## For Skramz Feature
+skramz_artists = {
+
+    "Orchid", "Pg.99", "Saetia", "City of Caterpillar", "I Hate Myself",
+    "Jeromes Dream", "William Bonney", "Merchant Ships", "Your Arms Are My Cocoon", "Flowers Taped To Pens", 
+    "iwrotehaikusaboutcannibalisminyouryearbook", "Funeral Diner", "Suis La Lune", 
+}
+
+user_cooldowns = {}
+COOLDOWN_SECONDS = 240
+
+#################################################
 
 # Load environment variables from .env file
 load_dotenv()
@@ -29,6 +44,7 @@ handler = logging.FileHandler(filename='discord.log', encoding="utf8", mode='w')
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+intents.presences = True
 
 ############################################################
 
@@ -221,6 +237,33 @@ async def on_message(message):
 
     log_message(message)
     await bot.process_commands(message)
+
+###########################################################
+
+
+### Skramz
+###########################################################
+
+@bot.event
+async def on_presence_update(before, after):
+    if after.activity and isinstance(after.activity, discord.Spotify):
+        activity = after.activity
+        artist = activity.artist
+
+        now = time.time()
+        last_triggered = user_cooldowns.get(after.id, 0)
+        if now - last_triggered < COOLDOWN_SECONDS:
+            return  # cool down
+        user_cooldowns[after.id] = now  # update the last time it was used
+
+        if artist in skramz_artists:  # if artist is in skramz list
+            channel = discord.utils.get(after.guild.text_channels, name="general") # send to general
+            if channel: 
+                await channel.send(
+                    f"{after.mention} is listening to skramz. "
+                    f"HEY SKRAMZ KID WE LISTEN TO MATH ROCK AROUND HERE! "
+                    f"({activity.title} by {artist})"
+                )
 
 ###########################################################
 
