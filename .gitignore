@@ -1,4 +1,4 @@
 .env
 .env
 message_log.txt
-console.log
+discord.log
