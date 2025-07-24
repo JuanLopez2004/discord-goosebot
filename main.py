@@ -290,5 +290,5 @@ async def on_presence_update(before, after):
 
 ###########################################################
 
-###print(f"TOKEN LOADED: {token}")
+print(f"TOKEN LOADED: {token}")
 bot.run (token, log_handler=handler, log_level=logging.DEBUG)
